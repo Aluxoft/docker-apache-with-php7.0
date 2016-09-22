@@ -1,0 +1,17 @@
+sudo: required
+
+language: ruby
+env:
+  global:
+    - secure: "eMTAlHTSbc/FJEYr9eygoNeF1RM78zHU6/wJWf3QnQT493UCZz2j1Dwo162WTcjfuu+Xbbyzyx7WAQdx/2LvO5Fg5FPfhIp90hGw4TTFCvXrjHk+sU5nUS6Vf9S4MssP7tT1xbaIiq9KMOrbopOX5QY2VK7vxPiHjOQ7cZVq+fOZRFOQiMDK7VaRl3MnJwIblz/lq5ye1AoWlivvbJhfwS3Q+ZxlhyA4uK7P/QUpe8jX1D4IaGcVQmY7SLPEvLSyFL6pmqsY4DjxyRElgzgKWH++pVbxK2hLoamRmwE3d9Y48v1HfuWJZYqLDU3yz2ymTarPs1/Bb3uwDAZtkZ5JcBm6pkTIyv9rJq6R6s7Hmw/PZwA5XACPxwHuFKwBCY5AyxWKG8rC4/5qZi+crTBgdq+jhWdE2ikgRPs60Hvg+n/wM6Ih7hviNSui076EsJjZGi0CqNEmEerevLAYovMv+gMfMjDKFPkz1CBFfi3kdySgivztGsQbBNn5EX64J+Z/ir6grMi3prhS8ljn278PDtmRXhR3O+F866cRM2iHfnf4xrztbK4xwMreYbnT2uWC/K9hV4JO/XQi4lT0EPRIhfoF5TFP1C5qIkpxkUwrXWIZJ3+m+9cirLIn/dNMYq2Ab/zQGOliA0QNMvxA+GJ5saCnkW9jDJRDOrSrXUeCvjs="
+    - secure : "aeCgtxCW9nnaEPZQ6Fdn2SyHqE5CPBnqKQT5U4lQRUfORnmDbhl4HJV6g3LBcnK2FdCiUsFJm3wmy6nSGcidH+28porM78ankSccwFdhtKU7HfZhxUqeyRPUfd0QQvhWGshoAZEtGXFXCh464Q2U8+EMPC+x4zkePwdq97AT11QJbsuXzavxD8OyZqIGuWAxWsg7lSCrNTgt6U7CLo6PqK8Y4CG+nbQpoGMcuq2VHLJUJwF12taWxkHMJlDNEG+SKrPI4LiluOG3U+LM0umxRdbLUG1x5zbpAyghTJ5uHiSM4LgOpQAEj4UPo2qOGzjyV3LK6dv0ZqrJgFkO4R5AmcuxKWSIlMtvHygVJTD6U+pSS5uXIGc8WXP9nv4JotfFA+Yo4qRemc0xJlX1NNwkCbk+pZ21kETssg4AkeiYCvcR1EwsH+D4jWfncsvRQG5+i1fnmBhiaqeOmobBLVHNS/ooYMWhP0qOoCGSLnwQDyNocHna8OTVr546pANIDReJkre9vwePmGisl7Kw3U43djRhSB34+i5cJ3vK0KdZAeZafeChonqLAP3K2cjyFPbCfRXImSEUokTBMdlz8Vnj6nwApER3/kdp+EUmx66OmPuNRE/1ZglGUZowQ2NTvP5gj0gWMDB1I+NZ3lcJD72Q4VtwWvpSkr0h5+HX9s49NOs="
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - REPO=aluxoft/apache-with-php7.0
+services:
+  - docker
+script: docker build -f Dockerfile -t $REPO:$COMMIT .
+after_success:
+  - docker login -u $D_U -p $D_P
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker push $REPO:$TAG
