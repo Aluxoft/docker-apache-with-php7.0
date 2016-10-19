@@ -15,8 +15,15 @@ RUN echo "{ \"allow_root\": true }" > ~/.bowerrc
 
 RUN a2enmod php7.0
 
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+
 COPY apache2/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY apache2/apache2-foreground /usr/local/bin
+
+WORKDIR /var/www/html
 
 EXPOSE 80
 
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+CMD /usr/local/bin/apache2-foreground
