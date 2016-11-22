@@ -1,5 +1,5 @@
 web:
-  image: josejulio/php7
+  image: aluxoft/php7
   ports:
     - "8080:80"
   volumes:
