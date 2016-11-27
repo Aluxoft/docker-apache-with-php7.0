@@ -18,6 +18,7 @@ RUN a2enmod php7.0
 ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid
+ENV LC_ALL en_US.utf8
 
 COPY apache2/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY apache2/apache2-foreground /usr/local/bin
