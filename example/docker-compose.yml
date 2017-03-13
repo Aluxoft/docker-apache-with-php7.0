@@ -1,5 +1,5 @@
 web:
-  image: aluxoft/php7
+  image: aluxoft/apache-with-php7.0
   ports:
     - "8080:80"
   volumes:
